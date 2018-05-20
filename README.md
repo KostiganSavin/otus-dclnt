@@ -1,5 +1,5 @@
-# 
-Fiasko is a static analysis tool for python code that gets function names form project and counts most common verb for function names.
+# DCLNT
+Dclnt is a static analysis tool for python code that gets function names form project and counts most common verb for function names.
 
 ### Example
 
