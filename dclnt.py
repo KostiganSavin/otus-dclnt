@@ -57,23 +57,26 @@ def get_verbs_from_function_name(function_name):
     return [word for word in function_name.split('_') if is_verb(word)]
 
 
-def split_snake_case_name_to_words(function_name):
-    return [word for word in function_name.split('_') if word]
-
-
 def get_all_words_in_path(path):
     trees = [t for t in get_trees(path) if t]
-    function_names = [f for f in flat([get_all_names(t) for t in trees])
-                      if not (f.startswith('__') and f.endswith('__'))]
+    function_names = [f for f in flat([get_all_names(t) for t in trees]) if not (f.startswith('__') and f.endswith('__'))]
     return flat([split_snake_case_name_to_words(function_name)
                  for function_name in function_names])
 
 
+def split_snake_case_name_to_words(function_name):
+    return [word for word in function_name.split('_') if word]
+
+
+def get_fuction_names_from_trees(trees):
+    return [f for f in flat([[node.name.lower()
+            for node in ast.walk(t) if isinstance(node, ast.FunctionDef)]
+            for t in trees]) if not (f.startswith('__') and f.endswith('__'))]
+
+
 def get_top_verbs_in_path(path, top_size=10):
     trees = [t for t in get_trees(path) if t]
-    function_names = [f for f in flat([[node.name.lower()
-             for node in ast.walk(t) if isinstance(node, ast.FunctionDef)]
-             for t in trees]) if not (f.startswith('__') and f.endswith('__'))]
+    function_names = get_fuction_names_from_trees(trees)
     print('functions extracted')
     verbs = flat([get_verbs_from_function_name(function_name)
                   for function_name in function_names])
@@ -81,10 +84,8 @@ def get_top_verbs_in_path(path, top_size=10):
 
 
 def get_top_functions_names_in_path(path, top_size=10):
-    t = get_trees(path)
-    function_names = [f for f in flat([[node.name.lower() for node in ast.walk(t)
-           if isinstance(node, ast.FunctionDef)] for t in t])
-           if not (f.startswith('__') and f.endswith('__'))]
+    trees = get_trees(path)
+    function_names = get_fuction_names_from_trees(trees)
     return collections.Counter(function_names).most_common(top_size)
 
 
@@ -105,10 +106,10 @@ def main(projects):
 if __name__ == '__main__':
     projects = [
         # 'django',
-        # 'flask',
+        'flask',
         # 'pyramid',
         # 'reddit',
         # 'requests',
-        'sqlalchemy',
+        # 'sqlalchemy',
     ]
     main(projects=projects)
