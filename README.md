@@ -38,11 +38,8 @@ $ pip install -r requirements.txt
 
 ### Contributing
 
-To contribute, [pick an issue](https://github.com/devmanorg/fiasko_bro/issues) to work on and leave a comment saying
+To contribute, [pick an issue](https://github.com/KostiganSavin/otus-dclnt/issues) to work on and leave a comment saying
 that you've taken the issue. Don't forget to mention when you want to submit the pull request.
-
-You can read more about contribution guidelines [in the docs](http://fiasko-bro.readthedocs.io/en/latest/contributing.html)
-
 
 ### Launch tests
 `python -m pytest`
